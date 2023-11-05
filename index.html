@@ -10,18 +10,37 @@
     <header>
       <div>MOTION</div>
       <nav>
-        <button class="open">IMAGE</button>
-        <button class="open">VEDIO</button>
-        <button class="open">NOTE</button>
-        <button class="open">TASK</button>
-        <div id="task-button" class="modal hidden">
-          <div class="image-modal">
-            <button class="close">❌</button>
-            <div>innertext</div>
-            <input type="text" />
-            <div>innertext</div>
-            <input type="text" />
-          </div>
+        <button data-modal-id="image-modal" class="open">IMAGE</button>
+        <button data-modal-id="vedio-modal" class="open">VEDIO</button>
+        <button data-modal-id="note-modal" class="open">NOTE</button>
+        <button data-modal-id="task-modal" class="open">TASK</button>
+        <div id="image-modal" class="modal hidden">
+          <button class="close">❌</button>
+          <div>Title</div>
+          <input type="text" />
+          <div>URL</div>
+          <input type="text" />
+        </div>
+        <div id="vedio-modal" class="modal hidden">
+          <button class="close">❌</button>
+          <div>Title</div>
+          <input type="text" />
+          <div>Body</div>
+          <input type="text" />
+        </div>
+        <div id="note-modal" class="modal hidden">
+          <button class="close">❌</button>
+          <div>Title</div>
+          <input type="text" />
+          <div>URL</div>
+          <input type="text" />
+        </div>
+        <div id="task-modal" class="modal hidden">
+          <button class="close">❌</button>
+          <div>Title</div>
+          <input type="text" />
+          <div>Body</div>
+          <input type="text" />
         </div>
       </nav>
     </header>

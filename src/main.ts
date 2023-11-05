@@ -1,13 +1,17 @@
 const openButtons = document.querySelectorAll('.open');
-const modal = document.querySelector('.modal');
-const openModal = () => {
-  modal?.classList.remove('hidden');
-};
+const modals = document.querySelectorAll('.modal');
+
 openButtons.forEach((button) => {
-  button.addEventListener('click', openModal);
+  button.addEventListener('click', () => {
+    const modalId = button.getAttribute('data-modal-id') as string;
+    console.log(modalId);
+    const modalToOpen = document.getElementById(modalId);
+    if (modalToOpen) {
+      modalToOpen.classList.remove('hidden');
+    }
+  });
 });
-const closeButton = modal?.querySelector('.close');
-const closeModal = () => {
-  modal?.classList.add('hidden');
-};
-closeButton?.addEventListener('click', closeModal);
+
+modals.forEach((modal) => {
+  modal.addEventListener('click', () => modal.classList.add('hidden'));
+});
