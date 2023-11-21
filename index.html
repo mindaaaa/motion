@@ -10,37 +10,42 @@
     <header>
       <div>MOTION</div>
       <nav>
-        <button data-modal-id="image-modal" class="open">IMAGE</button>
-        <button data-modal-id="vedio-modal" class="open">VEDIO</button>
-        <button data-modal-id="note-modal" class="open">NOTE</button>
-        <button data-modal-id="task-modal" class="open">TASK</button>
+        <button modal-button-id="image-modal" class="open">IMAGE</button>
+        <button modal-button-id="video-modal" class="open">VIDEO</button>
+        <button modal-button-id="note-modal" class="open">NOTE</button>
+        <button modal-button-id="task-modal" class="open">TASK</button>
         <div id="image-modal" class="modal hidden">
-          <button class="close">❌</button>
+          <button close-button-id="image-modal" class="close">❌</button>
           <div>Title</div>
-          <input type="text" />
+          <input type="text" id="image-title" />
           <div>URL</div>
-          <input type="text" />
+          <input type="text" id="image-url" />
+          <img id="modal-image" src="" />
+          <button class="add">ADD</button>
         </div>
-        <div id="vedio-modal" class="modal hidden">
-          <button class="close">❌</button>
+        <div id="video-modal" class="modal hidden">
+          <button close-button-id="video-modal" class="close">❌</button>
           <div>Title</div>
           <input type="text" />
           <div>Body</div>
           <input type="text" />
+          <button class="add">ADD</button>
         </div>
         <div id="note-modal" class="modal hidden">
-          <button class="close">❌</button>
+          <button close-button-id="note-modal" class="close">❌</button>
           <div>Title</div>
           <input type="text" />
           <div>URL</div>
           <input type="text" />
+          <button class="add">ADD</button>
         </div>
         <div id="task-modal" class="modal hidden">
-          <button class="close">❌</button>
+          <button close-button-id="task-modal" class="close">❌</button>
           <div>Title</div>
           <input type="text" />
           <div>Body</div>
           <input type="text" />
+          <button class="add">ADD</button>
         </div>
       </nav>
     </header>
