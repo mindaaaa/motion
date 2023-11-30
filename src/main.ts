@@ -3,37 +3,47 @@ const openButtons: NodeListOf<HTMLElement> = document.querySelectorAll('.open');
 let isModalOpen: boolean = false;
 
 openButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    if (!isModalOpen) {
-      const modalId = button.getAttribute('modal-button-id');
-      // 이중 if문을 사용해서 코드가 더러워졌어 ㅠㅠ 리팩토링 함수로 뺴자
-      if (modalId) {
-        const modalToOpen = document.getElementById(modalId);
-        if (modalToOpen) {
-          modalToOpen.classList.remove('hidden');
-          isModalOpen = true;
-        }
+  button.addEventListener('click', handleOpenModal);
+});
+
+function handleOpenModal(event: Event) {
+  const openButton = event.currentTarget as HTMLElement;
+  const modalId = openButton.getAttribute('modal-button-id');
+  if (!isModalOpen) {
+    if (modalId) {
+      const modalToOpen = document.getElementById(modalId);
+      if (modalToOpen) {
+        modalToOpen.classList.remove('hidden');
+        isModalOpen = true;
       }
     }
-  });
-});
+  }
+}
 
 const closeButton: NodeListOf<HTMLElement> =
   document.querySelectorAll('.close');
+
 closeButton.forEach((button) => {
-  button.addEventListener('click', () => {
-    const closeButtonId = button.getAttribute('close-button-id');
-    if (closeButtonId) {
-      const modalToClose = document.getElementById(closeButtonId);
-      if (modalToClose) {
-        modalToClose.classList.add('hidden');
-        isModalOpen = false;
-      }
-    }
-  });
+  button.addEventListener('click', handleCloseModal);
 });
 
-// url 추가 버튼
+function handleCloseModal(event: Event) {
+  const closeButton = event.currentTarget as HTMLElement;
+  const modalId = closeButton.getAttribute('close-button-id');
+
+  if (modalId) {
+    const modalToClose = document.getElementById(modalId);
+
+    if (modalToClose) {
+      modalToClose.classList.add('hidden');
+      isModalOpen = false;
+    }
+  }
+}
+
+// add 버튼을 누르면
+// 우측 이미지/좌측 타이틀이 출력되고
+// 모달이 꺼져요
 const modal = document.querySelector('#image-modal');
 
 const addButton = modal?.querySelector('.add');
