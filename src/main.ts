@@ -41,48 +41,54 @@ function handleCloseModal(event: Event) {
   }
 }
 
-// add 버튼을 누르면
-// input에 내용이 들어가서
-// img 태그가 출력되고, div 태그에 title이 출력되고
-// 모달이 꺼져요
+const contentElement = document.querySelector('#content') as HTMLElement;
+
 modals.forEach((modal) => {
-  const modalTitle: HTMLElement | null =
-    document.querySelector('#modalContent');
-  const modalImage: HTMLImageElement | null =
-    document.querySelector('#modal-image');
   const addButton = modal.querySelector('.add') as HTMLElement;
   addButton.addEventListener('click', () => {
-    // 모달 타이틀 입력
     const modalInputTitle = modal.querySelector(
       '#image-title'
     ) as HTMLInputElement;
     const title = modalInputTitle.value;
 
-    if (modalTitle) {
-      modalTitle.textContent = `${title}`;
-    }
-    // 모달 이미지 출력
     const modalInputImage = modal.querySelector(
       '#image-url'
     ) as HTMLInputElement;
     const image = modalInputImage.value;
 
-    if (modalImage) {
-      modalImage.src = image;
+    if (title && image) {
+      const newSection = document.createElement('section');
+      newSection.classList.add('section-css');
+
+      const newTitle = document.createElement('div');
+      newTitle.textContent = title;
+      const newImg = document.createElement('img');
+      newImg.src = image;
+
+      newSection.appendChild(newImg);
+      newSection.appendChild(newTitle);
+
+      contentElement.appendChild(newSection);
     }
-    // 모달 삭제
-    handleCloseModal;
   });
 });
 
-// addButton?.addEventListener('click', () => {
-//   const imageUrlInput = document.getElementById(
-//     'image-url'
-//   ) as HTMLInputElement;
-//   const imageUrl = imageUrlInput?.value;
+function handleAddModal(event: Event) {
+  const addButtom = event.currentTarget as HTMLElement;
+  const modalId = addButtom.getAttribute('add-button-id');
 
-//   const modalImage = modal?.querySelector('#modal-image') as HTMLImageElement;
-//   if (modalImage) {
-//     modalImage.src = imageUrl;
-//   }
-// });
+  if (modalId) {
+    const modalToClose = document.getElementById(modalId);
+
+    if (modalToClose) {
+      modalToClose.classList.add('hidden');
+      isModalOpen = false;
+    }
+  }
+}
+
+// repactor
+// add 버튼을 누르면
+// 모달이 꺼지고
+// section 추가되고
+// classList add 해줘요(css처리하게)

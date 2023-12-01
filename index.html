@@ -20,9 +20,11 @@
           <input type="text" id="image-title" />
           <div>URL</div>
           <input type="text" id="image-url" />
+          <!-- 
           <img id="modal-image" src="" />
           <div id="modalContent" />
-          <button class="add">ADD</button>
+          -->
+          <button add-button-id="image-modal" class="add">ADD</button>
         </div>
         <div id="video-modal" class="modal hidden">
           <button close-button-id="video-modal" class="close">❌</button>
@@ -30,7 +32,7 @@
           <input type="text" />
           <div>Body</div>
           <input type="text" />
-          <button class="add">ADD</button>
+          <button add-button-id="video-modal" class="add">ADD</button>
         </div>
         <div id="note-modal" class="modal hidden">
           <button close-button-id="note-modal" class="close">❌</button>
@@ -38,7 +40,7 @@
           <input type="text" />
           <div>URL</div>
           <input type="text" />
-          <button class="add">ADD</button>
+          <button add-button-id="note-modal" class="add">ADD</button>
         </div>
         <div id="task-modal" class="modal hidden">
           <button close-button-id="task-modal" class="close">❌</button>
@@ -46,11 +48,11 @@
           <input type="text" />
           <div>Body</div>
           <input type="text" />
-          <button class="add">ADD</button>
+          <button add-button-id="task-modal" class="add">ADD</button>
         </div>
       </nav>
     </header>
-    <content> </content>
+    <content id="content"></content>
     <footer></footer>
     <script type="module" src="/src/main.ts"></script>
   </body>
