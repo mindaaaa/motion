@@ -46,49 +46,39 @@ const contentElement = document.querySelector('#content') as HTMLElement;
 modals.forEach((modal) => {
   const addButton = modal.querySelector('.add') as HTMLElement;
   addButton.addEventListener('click', () => {
-    const modalInputTitle = modal.querySelector(
-      '#image-title'
-    ) as HTMLInputElement;
-    const title = modalInputTitle.value;
-
-    const modalInputImage = modal.querySelector(
-      '#image-url'
-    ) as HTMLInputElement;
-    const image = modalInputImage.value;
+    const { title, image } = getInputValue(modal);
 
     if (title && image) {
-      const newSection = document.createElement('section');
-      newSection.classList.add('section-css');
-
-      const newTitle = document.createElement('div');
-      newTitle.textContent = title;
-      const newImg = document.createElement('img');
-      newImg.src = image;
-
-      newSection.appendChild(newImg);
-      newSection.appendChild(newTitle);
-
+      const newSection = createSection(title, image);
       contentElement.appendChild(newSection);
     }
   });
 });
 
-function handleAddModal(event: Event) {
-  const addButtom = event.currentTarget as HTMLElement;
-  const modalId = addButtom.getAttribute('add-button-id');
+function getInputValue(modal: HTMLElement): { title: string; image: string } {
+  const inputTitle = modal.querySelector('#image-title') as HTMLInputElement;
+  const inputImage = modal.querySelector('#image-url') as HTMLInputElement;
 
-  if (modalId) {
-    const modalToClose = document.getElementById(modalId);
-
-    if (modalToClose) {
-      modalToClose.classList.add('hidden');
-      isModalOpen = false;
-    }
-  }
+  return {
+    title: inputTitle.value,
+    image: inputImage.value,
+  };
 }
 
-// repactor
+function createSection(title: string, image: string): HTMLElement {
+  const newSection = document.createElement('section');
+  newSection.classList.add('section-css');
+
+  const newTitle = document.createElement('div');
+  newTitle.textContent = title;
+  const newImg = document.createElement('img');
+  newImg.src = image;
+
+  newSection.appendChild(newImg);
+  newSection.appendChild(newTitle);
+
+  return newSection;
+}
+
 // add 버튼을 누르면
-// 모달이 꺼지고
-// section 추가되고
-// classList add 해줘요(css처리하게)
+// 모달이 꺼지요
