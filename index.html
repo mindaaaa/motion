@@ -20,35 +20,39 @@
           <input type="text" id="image-title" />
           <div>URL</div>
           <input type="text" id="image-url" />
-          <!-- 
-          <img id="modal-image" src="" />
-          <div id="modalContent" />
-          -->
-          <button add-button-id="image-modal" class="add">ADD</button>
+          <button add-button-id="image-modal" modal-type="img" class="add">
+            ADD
+          </button>
         </div>
         <div id="video-modal" class="modal hidden">
           <button close-button-id="video-modal" class="close">❌</button>
           <div>Title</div>
-          <input type="text" />
+          <input type="text" id="video-title" />
           <div>Body</div>
-          <input type="text" />
-          <button add-button-id="video-modal" class="add">ADD</button>
+          <input type="text" id="video-url" />
+          <button add-button-id="video-modal" modal-type="video" class="add">
+            ADD
+          </button>
         </div>
         <div id="note-modal" class="modal hidden">
           <button close-button-id="note-modal" class="close">❌</button>
           <div>Title</div>
-          <input type="text" />
-          <div>URL</div>
-          <input type="text" />
-          <button add-button-id="note-modal" class="add">ADD</button>
+          <input type="text" class="title" />
+          <div>Body</div>
+          <input type="text" class="body" />
+          <button add-button-id="note-modal" modal-type="div" class="add">
+            ADD
+          </button>
         </div>
         <div id="task-modal" class="modal hidden">
           <button close-button-id="task-modal" class="close">❌</button>
           <div>Title</div>
-          <input type="text" />
+          <input type="text" class="title" />
           <div>Body</div>
-          <input type="text" />
-          <button add-button-id="task-modal" class="add">ADD</button>
+          <input type="text" class="body" />
+          <button add-button-id="task-modal" modal-type="div" class="add">
+            ADD
+          </button>
         </div>
       </nav>
     </header>
