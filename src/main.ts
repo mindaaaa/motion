@@ -1,14 +1,16 @@
 const modals: NodeListOf<HTMLElement> = document.querySelectorAll('.modal');
 const openButtons: NodeListOf<HTMLElement> = document.querySelectorAll('.open');
 let isModalOpen: boolean = false;
-const draggableSection = Array.from(document.querySelectorAll('.drag-section'));
 let draggedElement: HTMLElement | null = null;
 const contentElement = document.querySelector('#content') as HTMLElement;
 
 function addDragEventListeners(section: HTMLElement) {
   section.addEventListener('dragstart', (event) => {
     const dragEvent = event as DragEvent;
+
     draggedElement = event.currentTarget as HTMLElement;
+    console.log(draggedElement);
+
     dragEvent.dataTransfer?.setData('text/plain', '');
   });
 
@@ -18,21 +20,22 @@ function addDragEventListeners(section: HTMLElement) {
 
   section.addEventListener('drop', (event) => {
     event.preventDefault();
-    const dragEvent = event as DragEvent;
-    draggedElement = event.currentTarget as HTMLElement;
-    const element = draggedElement?.getBoundingClientRect();
+    const dragEvent = event as DragEvent; // 개 긴 오브젝트
+    const dropElement = event.currentTarget as HTMLElement;
+    const element = dropElement?.getBoundingClientRect();
 
-    if (draggedElement && draggedElement !== dragEvent.target) {
-      const isAfter = dragEvent.clientY > element!.top + element!.height / 2;
-      const targetElement = dragEvent.target as HTMLElement;
+    if (!draggedElement) {
+      return;
+    }
 
-      if (isAfter) {
-        contentElement.insertBefore(draggedElement, targetElement.nextSibling);
-      } else {
-        contentElement.insertBefore(draggedElement, targetElement);
-      }
+    const isAfter = dragEvent.clientY > element!.top + element!.height / 2;
+    if (isAfter) {
+      contentElement.insertBefore(draggedElement, dropElement.nextSibling);
+    } else {
+      contentElement.insertBefore(draggedElement, dropElement);
     }
   });
+
   section.addEventListener('dragend', () => {
     draggedElement = null;
   });
@@ -189,7 +192,3 @@ function resetInputValues(modalType: string | null) {
     inputImage.value = '';
   }
 }
-
-// todo ◼로 구현
-// 드래그앤드롭
-// css
