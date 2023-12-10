@@ -1,6 +1,42 @@
 const modals: NodeListOf<HTMLElement> = document.querySelectorAll('.modal');
 const openButtons: NodeListOf<HTMLElement> = document.querySelectorAll('.open');
 let isModalOpen: boolean = false;
+const draggableSection = Array.from(document.querySelectorAll('.drag-section'));
+let draggedElement: HTMLElement | null = null;
+const contentElement = document.querySelector('#content') as HTMLElement;
+
+function addDragEventListeners(section: HTMLElement) {
+  section.addEventListener('dragstart', (event) => {
+    const dragEvent = event as DragEvent;
+    draggedElement = event.currentTarget as HTMLElement;
+    dragEvent.dataTransfer?.setData('text/plain', '');
+  });
+
+  section.addEventListener('dragover', (event) => {
+    event.preventDefault();
+  });
+
+  section.addEventListener('drop', (event) => {
+    event.preventDefault();
+    const dragEvent = event as DragEvent;
+    draggedElement = event.currentTarget as HTMLElement;
+    const element = draggedElement?.getBoundingClientRect();
+
+    if (draggedElement && draggedElement !== dragEvent.target) {
+      const isAfter = dragEvent.clientY > element!.top + element!.height / 2;
+      const targetElement = dragEvent.target as HTMLElement;
+
+      if (isAfter) {
+        contentElement.insertBefore(draggedElement, targetElement.nextSibling);
+      } else {
+        contentElement.insertBefore(draggedElement, targetElement);
+      }
+    }
+  });
+  section.addEventListener('dragend', () => {
+    draggedElement = null;
+  });
+}
 
 openButtons.forEach((button) => {
   button.addEventListener('click', handleOpenModal);
@@ -53,73 +89,6 @@ function handleCloseModal(event: Event) {
     }
   }
 }
-
-const contentElement = document.querySelector('#content') as HTMLElement;
-
-// modals.forEach((modal) => {
-//   const addButton = modal.querySelector('.add') as HTMLElement;
-//   const modalId = addButton.getAttribute('add-button-id');
-
-//   addButton.addEventListener('click', () => {
-//     const { title, image } = getInputValue(modal, modalId);
-
-//     if (title && image && modalId) {
-//       createSection(title, image, modalId);
-
-//       if (modalId) {
-//         closeModal(modalId);
-//       }
-//     }
-//   });
-// });
-
-// function getInputValue(
-//   modal: HTMLElement,
-//   modalId: string | null
-// ): { title: string; image: string } {
-//   let inputTitleId = '';
-//   let inputImageId = '';
-
-//   if (modalId === 'image-modal') {
-//     inputTitleId = '#image-title';
-//     inputImageId = '#image-url';
-//   } else if (modalId === 'video-modal') {
-//     inputTitleId = '#video-title';
-//     inputImageId = '#video-url';
-//   } else {
-//     inputTitleId = '.title';
-//     inputImageId = '.body';
-//   }
-
-//   const inputTitle = modal.querySelector(inputTitleId) as HTMLInputElement;
-//   const inputImage = modal.querySelector(inputImageId) as HTMLInputElement;
-
-//   return {
-//     title: inputTitle.value,
-//     image: inputImage.value,
-//   };
-// }
-
-// function createSection(title: string, image: string, modalId: string) {
-//   const newSection = document.createElement('section');
-//   newSection.classList.add('section-css');
-
-//   const newTitle = document.createElement('div');
-//   newTitle.textContent = title;
-//   const newItem: HTMLElement = document.createElement(modalId);
-
-//   if (modalId === 'image-modal' || modalId === 'video-modal') {
-//     newItem.setAttribute('src', image);
-//   } else {
-//     newItem.innerText = image;
-//   }
-
-//   newSection.appendChild(newItem);
-//   newSection.appendChild(newTitle);
-
-//   contentElement.appendChild(newSection);
-// }
-
 modals.forEach((modal) => {
   const addButton = modal.querySelector('.add') as HTMLElement;
   const modalType = addButton.getAttribute('modal-type');
@@ -168,6 +137,8 @@ function getInputValue(
 function createSection(title: string, image: string, item: string) {
   const newSection = document.createElement('section');
   newSection.classList.add('section-css');
+  newSection.classList.add('drag-section');
+  newSection.draggable = true;
 
   const newTitle = document.createElement('div');
   newTitle.textContent = title;
@@ -190,6 +161,33 @@ function createSection(title: string, image: string, item: string) {
   newSection.appendChild(newTitle);
 
   contentElement.appendChild(newSection);
+
+  addDragEventListeners(newSection);
+  resetInputValues(item);
+}
+
+function resetInputValues(modalType: string | null) {
+  let inputTitleId = '';
+  let inputImageId = '';
+
+  if (modalType === 'img') {
+    inputTitleId = '#image-title';
+    inputImageId = '#image-url';
+  } else if (modalType === 'video') {
+    inputTitleId = '#video-title';
+    inputImageId = '#video-url';
+  } else {
+    inputTitleId = '.title';
+    inputImageId = '.body';
+  }
+
+  const inputTitle = document.querySelector(inputTitleId) as HTMLInputElement;
+  const inputImage = document.querySelector(inputImageId) as HTMLInputElement;
+
+  if (inputTitle && inputImage) {
+    inputTitle.value = '';
+    inputImage.value = '';
+  }
 }
 
 // todo ◼로 구현
