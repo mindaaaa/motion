@@ -4,6 +4,19 @@ let isModalOpen: boolean = false;
 let draggedElement: HTMLElement | null = null;
 const contentElement = document.querySelector('#content') as HTMLElement;
 
+class Section {
+  title: string;
+  image: string;
+  item: string;
+
+  constructor(title: string, image: string, item: string) {
+    this.title = title;
+    this.image = image;
+    this.item = item;
+  }
+}
+
+// 추가된 섹션 중 선택된 요소를 다른 위치로 변경하는 함수(나머지는 밀려난다.)
 function addDragEventListeners(section: HTMLElement) {
   section.addEventListener('dragstart', (event) => {
     const dragEvent = event as DragEvent;
@@ -41,6 +54,7 @@ function addDragEventListeners(section: HTMLElement) {
   });
 }
 
+// 모달 구현 기능
 openButtons.forEach((button) => {
   button.addEventListener('click', handleOpenModal);
 });
@@ -59,6 +73,7 @@ function handleOpenModal(event: Event) {
   }
 }
 
+// 모달을 닫는 기능 구현
 const closeButtons: NodeListOf<HTMLElement> =
   document.querySelectorAll('.close');
 
@@ -110,6 +125,7 @@ modals.forEach((modal) => {
   });
 });
 
+// 입력된 정보를 받아오는 함수(creatSection으로 넘어감)
 function getInputValue(
   modal: HTMLElement,
   modalType: string | null
@@ -137,6 +153,8 @@ function getInputValue(
   };
 }
 
+const sections: HTMLElement[] = [];
+// getInputValue에서 입력받은 함수를 바탕으로 섹션을 만드는 함수
 function createSection(title: string, image: string, item: string) {
   const newSection = document.createElement('section');
   newSection.classList.add('section-css');
@@ -160,15 +178,26 @@ function createSection(title: string, image: string, item: string) {
     newItem.innerText = image;
   }
 
+  // 삭제 버튼 구현
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = '❌';
+  deleteButton.addEventListener('click', () => {
+    deleteSection(newSection);
+  });
+
   newSection.appendChild(newItem);
   newSection.appendChild(newTitle);
+  newSection.appendChild(deleteButton);
 
   contentElement.appendChild(newSection);
+
+  sections.push(newSection);
 
   addDragEventListeners(newSection);
   resetInputValues(item);
 }
 
+// 모달로 섹션을 추가했으면 input창이 초기화되는 함수
 function resetInputValues(modalType: string | null) {
   let inputTitleId = '';
   let inputImageId = '';
@@ -191,4 +220,13 @@ function resetInputValues(modalType: string | null) {
     inputTitle.value = '';
     inputImage.value = '';
   }
+}
+
+function deleteSection(section: HTMLElement) {
+  section.remove();
+  const index = sections.indexOf(section);
+  if (index !== -1) {
+    sections.splice(index, 1);
+  }
+  console.log(section);
 }
